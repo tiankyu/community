@@ -44,6 +44,7 @@ public class UserService implements CommunityConstant {
         return userMapper.selectById(id);
     }
 
+    //注册操作
     public Map<String, Object> register(User user) {
         Map<String, Object> map = new HashMap<>();
 

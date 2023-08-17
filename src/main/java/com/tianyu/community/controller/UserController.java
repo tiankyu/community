@@ -80,7 +80,7 @@ public class UserController {
         //更新成功后，更新当前用户的头像的路径（web访问路径）
         //http://localhost:8080/community/user/header/xxx.png
         User user = hostHolder.getUser();
-        String headerUrl = domain + contextPath + "/user/header" + fileName;
+        String headerUrl = domain + contextPath + "/user/header/" + fileName;
         userService.updateHeader(user.getId(), headerUrl);
 
         return "redirect:/index";
