@@ -2,9 +2,11 @@ package com.tianyu.community;
 
 import com.tianyu.community.dao.DiscussPostMapper;
 import com.tianyu.community.dao.LoginTicketMapper;
+import com.tianyu.community.dao.MessageMapper;
 import com.tianyu.community.dao.UserMapper;
 import com.tianyu.community.entity.DiscussPost;
 import com.tianyu.community.entity.LoginTicket;
+import com.tianyu.community.entity.Message;
 import com.tianyu.community.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,9 @@ public class MapperTests {
 
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Test
     public void testSelectUser() {
@@ -98,5 +103,27 @@ public class MapperTests {
         loginTicketMapper.updateStatus("abc", 1);
         loginTicket = loginTicketMapper.selectByTicket("abc");
         System.out.println(loginTicket);
+    }
+
+    @Test
+    public void testSelectLetters(){
+        List<Message> list = messageMapper.selectConversations(111, 0, 20);
+        for(Message message : list){
+            System.out.println(message);
+        }
+
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println(count);
+
+        List<Message> letters = messageMapper.selectLetters("111_112", 0, 10);
+        for(Message message : letters){
+            System.out.println(message);
+        }
+
+        int letterCount = messageMapper.selectLetterCount("111_112");
+        System.out.println(letterCount);
+
+        int unreadCount = messageMapper.selectLetterUnreadCount(131, "111_131");
+        System.out.println(unreadCount);
     }
 }
