@@ -3,7 +3,9 @@ package com.tianyu.community.dao;
 import com.tianyu.community.entity.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
+//@Deprecated表示该组件不推荐使用
 @Mapper
+@Deprecated
 public interface LoginTicketMapper {
 
     @Insert({
