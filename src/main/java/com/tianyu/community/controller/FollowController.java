@@ -1,7 +1,9 @@
 package com.tianyu.community.controller;
 
+import com.tianyu.community.entity.Event;
 import com.tianyu.community.entity.Page;
 import com.tianyu.community.entity.User;
+import com.tianyu.community.event.ProducerEvent;
 import com.tianyu.community.service.FollowService;
 import com.tianyu.community.service.UserService;
 import com.tianyu.community.util.CommunityConstant;
@@ -30,12 +32,25 @@ public class FollowController implements CommunityConstant {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ProducerEvent producerEvent;
+
     @RequestMapping(path = "/follow", method = RequestMethod.POST)
     @ResponseBody
     public String follow(int entityType, int entityId){
         User user = hostHolder.getUser();
 
         followService.follow(user.getId(), entityType, entityId);
+
+        //触发关注事件
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        producerEvent.fireEvent(event);
+
         return CommunityUtil.getJSONString(0, "已关注！");
     }
 
